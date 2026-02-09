@@ -16,6 +16,11 @@ function db(): mysqli {
 
 // ====== User Functions ======
 function get_user_by_email(string $email): ?array {
+    // syntactic format check
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return null; 
+    }
+    // semantic check
     $sql = "SELECT email, password_hash, account_disabled FROM users WHERE email = ? LIMIT 1";
     $stmt = db()->prepare($sql);
     $stmt->bind_param('s', $email);
