@@ -25,6 +25,25 @@
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $error = "Invalid email format";
             }
+
+            // Check if Email already exists
+            elseif (empty($error)) { // Only check DB if format is valid
+                $check_stmt = $conn->prepare("SELECT email FROM users WHERE email = ?");
+                $check_stmt->bind_param("s", $email);
+                $check_stmt->execute();
+                $check_stmt->store_result();
+                
+                if ($check_stmt->num_rows > 0) {
+                    $error = "This email is already registered.";
+                }
+                $check_stmt->close();
+            }
+
+            // Validate Names (Letters and spaces only)
+            elseif (!preg_match("/^[a-zA-Z\s]+$/", $first_name) || !preg_match("/^[a-zA-Z\s]+$/", $last_name)) {
+                $error = "Names can only contain letters and spaces.";
+            }
+
             // Validate the password
             elseif (!passwordIsValid($conn, $email, $password, $confirm_password, $error)) {
                 // Error is already set inside passwordIsValid function
