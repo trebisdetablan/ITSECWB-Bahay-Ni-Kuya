@@ -38,6 +38,8 @@ CREATE TABLE IF NOT EXISTS `bahaynikuya_db`.`users` (
   `password_hash` TEXT NULL,
   `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   `role` ENUM('C', 'A', 'S') NULL,
+  `failed_attempts` INT DEFAULT 0,
+  `lock_until` DATETIME DEFAULT NULL,
   `question_id` INT NULL,
   `question_answer` TEXT NULL,
   `account_disabled` ENUM('Y', 'N') NULL,
