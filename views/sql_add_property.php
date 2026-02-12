@@ -98,21 +98,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $photo = null;
     
 
-    // Photo upload
-    // Code referenced: https://www.youtube.com/watch?v=6iERr1ADFz8
+    // --- SECURE PHOTO UPLOAD START ---
     if (!empty($_FILES['image']['name'])) {
         $file_name = $_FILES['image']['name'];
         $tempname = $_FILES['image']['tmp_name'];
-        $folder = '../assets/images/'.$file_name;
+        
+        // Check the Extension 
+        $allowed_ext = ['jpg', 'jpeg', 'png', 'gif'];
+        $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 
-        // Save file path to photo variable
+        // Check the MIME Type 
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mime = finfo_file($finfo, $tempname);
+        finfo_close($finfo);
+        $allowed_mimes = ['image/jpeg', 'image/png', 'image/gif'];
+
+        if (!in_array($file_ext, $allowed_ext) || !in_array($mime, $allowed_mimes)) {
+            echo "<script>alert('Error: Only JPG, PNG, and GIF images are allowed.'); window.location.href='admin.php';</script>";
+            exit;
+        }
+
+        // Rename the file to something unique
+        $new_file_name = bin2hex(random_bytes(10)) . "." . $file_ext;
+        $folder = '../assets/images/' . $new_file_name;
+        
+        // Save the NEW path to the database variable
         $photo = $folder;
 
-        if(move_uploaded_file($tempname, $folder)){
-            echo "<h2>File uploaded successfully</h2>";
+        if (!move_uploaded_file($tempname, $folder)) {
+            echo "<script>alert('Error: Failed to save the image to the server.'); window.location.href='admin.php';</script>";
+            exit;
         }
-        else echo "<h2>File upload failed.</h2>";
-
     }
     
     // Insert new property
