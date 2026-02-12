@@ -103,20 +103,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
 
     // Photo upload
-    // Code referenced: https://www.youtube.com/watch?v=6iERr1ADFz8
     if (!empty($_FILES['image']['name'])) {
         $file_name = $_FILES['image']['name'];
         $tempname = $_FILES['image']['tmp_name'];
-        $folder = '../assets/images/'.$file_name;
+        
+        // Get the file extension
+        $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        $allowed_ext = ['jpg', 'jpeg', 'png', 'gif'];
 
-        // Set photo column
+        // Get the actual MIME type (checks file content)
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mime = finfo_file($finfo, $tempname);
+        finfo_close($finfo);
+        $allowed_mimes = ['image/jpeg', 'image/png', 'image/gif'];
+
+        // THE CHECKER: Verify both Extension and MIME type
+        if (!in_array($file_ext, $allowed_ext) || !in_array($mime, $allowed_mimes)) {
+            echo "<script>alert('Error: Only JPG, PNG, and GIF images are allowed.'); window.location.href='admin.php';</script>";
+            exit; // Stops the script so the file is never moved and DB is never updated
+        }
+
+        // Secure the filename (prevents directory traversal and overwriting)
+        $new_file_name = bin2hex(random_bytes(10)) . "." . $file_ext;
+        $folder = '../assets/images/' . $new_file_name;
+
         $photo = $folder;
 
-        if(move_uploaded_file($tempname, $folder)){
-            echo "<h2>File uploaded successfully</h2>";
+        if (move_uploaded_file($tempname, $folder)) {
+            // Success - code continues to DB call
+        } else {
+            echo "<script>alert('Error: File upload failed.'); window.location.href='admin.php';</script>";
+            exit;
         }
-        else echo "<h2>File upload failed.</h2>";
-
     }
 
     // STORED PROCEDURE: sp_update_property
