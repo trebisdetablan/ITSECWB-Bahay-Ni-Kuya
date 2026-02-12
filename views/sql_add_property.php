@@ -100,36 +100,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // --- SECURE PHOTO UPLOAD START ---
     if (!empty($_FILES['image']['name'])) {
-        $file_name = $_FILES['image']['name'];
-        $tempname = $_FILES['image']['tmp_name'];
-        
-        // Check the Extension 
-        $allowed_ext = ['jpg', 'jpeg', 'png', 'gif'];
-        $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 
-        // Check the MIME Type 
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $mime = finfo_file($finfo, $tempname);
-        finfo_close($finfo);
-        $allowed_mimes = ['image/jpeg', 'image/png', 'image/gif'];
+    $file_name = $_FILES['image']['name'];
+    $tempname  = $_FILES['image']['tmp_name'];
 
-        if (!in_array($file_ext, $allowed_ext) || !in_array($mime, $allowed_mimes)) {
-            echo "<script>alert('Error: Only JPG, PNG, and GIF images are allowed.'); window.location.href='admin.php';</script>";
-            exit;
-        }
+    // Allowed types
+    $allowed_ext = ['jpg', 'jpeg', 'png', 'gif'];
+    $allowed_mimes = ['image/jpeg', 'image/png', 'image/gif'];
 
-        // Rename the file to something unique
-        $new_file_name = bin2hex(random_bytes(10)) . "." . $file_ext;
-        $folder = '../assets/images/' . $new_file_name;
-        
-        // Save the NEW path to the database variable
-        $photo = $folder;
+    $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 
-        if (!move_uploaded_file($tempname, $folder)) {
-            echo "<script>alert('Error: Failed to save the image to the server.'); window.location.href='admin.php';</script>";
-            exit;
-        }
+    // EXTENSION CHECK
+    if (!in_array($file_ext, $allowed_ext)) {
+        echo "<script>alert('Invalid file extension. Only JPG, PNG, and GIF allowed.'); window.location.href='admin.php';</script>";
+        exit;
     }
+
+    // MIME CHECK (Stronger)
+    $mime = mime_content_type($tempname);
+
+    if ($mime === false || !in_array($mime, $allowed_mimes)) {
+        echo "<script>alert('Invalid file type. Only real image files allowed.'); window.location.href='admin.php';</script>";
+        exit;
+    }
+
+    // EXTRA SECURITY: Confirm it is a real image
+    if (getimagesize($tempname) === false) {
+        echo "<script>alert('File is not a valid image.'); window.location.href='admin.php';</script>";
+        exit;
+    }
+
+    // Generate safe filename
+    $new_file_name = bin2hex(random_bytes(16)) . "." . $file_ext;
+    $folder = '../assets/images/' . $new_file_name;
+
+    if (!move_uploaded_file($tempname, $folder)) {
+        echo "<script>alert('Failed to upload image.'); window.location.href='admin.php';</script>";
+        exit;
+    }
+
+    $photo = $folder;
+}
+
     
     // Insert new property
     // CALL PROCEDURE: sp_add_property
