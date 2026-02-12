@@ -1,5 +1,5 @@
 # Bahay Ni Kuya - Real Estate Website
-This project is developed as a requirement of ITDBADM
+This project is developed as a requirement of ITDBADM, forked for ITSECWB requirements.
 
 # Project Overview:
 Bahay Ni Kuya is a website where users can purchase houses and view pertinent details such as location.
