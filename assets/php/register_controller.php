@@ -18,8 +18,7 @@
 
             // Collect the password and hash it
             $password = $_POST['password'];
-            $confirm_password = $_POST['confirm_password'];
-            $hash = password_hash($password, PASSWORD_DEFAULT); 
+            $confirm_password = $_POST['confirm_password']; 
 
             // Validate email format
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -51,8 +50,12 @@
 
             // If no errors, proceed with registration
             if (empty($error)) {
+                // Will only hash the password if all validations are passed to avoid unnecessary hashing
+                $hash = password_hash($password, PASSWORD_DEFAULT);
+
                 // STORED PROCEDURE: CALL sp_add_user
                 $stmt = $conn->prepare("CALL sp_add_user(?, ?, ?, ?)");
+
 
                 // Bind the email, first name, last name, and hashed password
                 $stmt->bind_param("ssss", $email, $first_name, $last_name, $hash);
