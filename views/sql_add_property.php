@@ -98,22 +98,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $photo = null;
     
 
-    // Photo upload
-    // Code referenced: https://www.youtube.com/watch?v=6iERr1ADFz8
+    // --- SECURE PHOTO UPLOAD START ---
     if (!empty($_FILES['image']['name'])) {
-        $file_name = $_FILES['image']['name'];
-        $tempname = $_FILES['image']['tmp_name'];
-        $folder = '../assets/images/'.$file_name;
 
-        // Save file path to photo variable
-        $photo = $folder;
+    $file_name = $_FILES['image']['name'];
+    $tempname  = $_FILES['image']['tmp_name'];
 
-        if(move_uploaded_file($tempname, $folder)){
-            echo "<h2>File uploaded successfully</h2>";
-        }
-        else echo "<h2>File upload failed.</h2>";
+    // Allowed types
+    $allowed_ext = ['jpg', 'jpeg', 'png', 'gif'];
+    $allowed_mimes = ['image/jpeg', 'image/png', 'image/gif'];
 
+    $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+
+    // EXTENSION CHECK
+    if (!in_array($file_ext, $allowed_ext)) {
+        echo "<script>alert('Invalid file extension. Only JPG, PNG, and GIF allowed.'); window.location.href='admin.php';</script>";
+        exit;
     }
+
+    // MIME CHECK (Stronger)
+    $mime = mime_content_type($tempname);
+
+    if ($mime === false || !in_array($mime, $allowed_mimes)) {
+        echo "<script>alert('Invalid file type. Only real image files allowed.'); window.location.href='admin.php';</script>";
+        exit;
+    }
+
+    // EXTRA SECURITY: Confirm it is a real image
+    if (getimagesize($tempname) === false) {
+        echo "<script>alert('File is not a valid image.'); window.location.href='admin.php';</script>";
+        exit;
+    }
+
+    // Generate safe filename
+    $new_file_name = bin2hex(random_bytes(16)) . "." . $file_ext;
+    $folder = '../assets/images/' . $new_file_name;
+
+    if (!move_uploaded_file($tempname, $folder)) {
+        echo "<script>alert('Failed to upload image.'); window.location.href='admin.php';</script>";
+        exit;
+    }
+
+    $photo = $folder;
+}
+
     
     // Insert new property
     // CALL PROCEDURE: sp_add_property
