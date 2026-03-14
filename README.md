@@ -16,6 +16,33 @@ Bahay Ni Kuya is a website where users can purchase houses and view pertinent de
 * Quick tutorial on installing XAMPP on Windows 10/11:
 [https://www.youtube.com/watch?v=VCHXCusltqI](https://www.youtube.com/watch?v=VCHXCusltqI)
 
+#### 1. Install XAMPP
+* How to Install XAMPP:
+* [https://www.youtube.com/watch?v=VCHXCusltqI](https://www.youtube.com/watch?v=VCHXCusltqI)
+
+#### 2. Run XAMPP as Administrator (make sure you always run the xampp.control app)
+* How to run XAMPP as Administrator:
+* [https://www.youtube.com/watch?v=29M9beAcrLw&t=1s](https://www.youtube.com/watch?v=29M9beAcrLw&t=1s)
+
+#### 3. Click the Checkboxes for Apache and MySQL in the XAMPP.CONTROL App
+* Open xampp.control in the xampp folder
+* Beside 'Apache', click the checkbox []
+* Beside 'MySQL', click the checkbox []
+
+#### 4. Change MySQL Port to 3307
+* How to change XAMPP MySQL Port to 3307:
+* [https://youtu.be/u96rVINbAUI?si=Q_RhHPAlpDtVy730](https://youtu.be/u96rVINbAUI?si=Q_RhHPAlpDtVy730)
+
+#### 5. Clone repository into XAMPP's htdocs folder
+
+* On GitHub Desktop, click clone repository
+* Select the location: ```xampp/htdocs``` folder
+* To find the htdocs folder, open your XAMPP Control Panel and press [Explorer] to open
+the file location of the xampp folder.
+
+### Executing program
+
+* Open XAMPP Control Panel
 
 * Download ZIP of main branch on GitHub
 * Extract the project folder to your ```xampp/htdocs``` folder
