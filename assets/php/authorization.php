@@ -1,4 +1,6 @@
 <?php
+require_once('logger.php');
+
 function adminAccess(&$conn){
     $resource = "/admin";
     $reason = "Non-admin user attempted unauthorized access";
@@ -52,6 +54,7 @@ function logAuthorization(&$conn, $email, $resource, $reason, $status) {
     $log_stmt->bind_param("sssss", $type, $email, $resource, $reason, $status);
     $log_stmt->execute();
 
+    writeToLogFile("AUTH", $email, $resource, $reason, $status);
 }
 
 ?>
