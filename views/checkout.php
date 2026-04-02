@@ -67,10 +67,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
                 
                 // Set success flag
                 $orderSuccess = true;
+
+                // Log the successful transaction
+                require_once('../assets/php/logger.php');
+                writeToLogFile("TRANSACTION", $_SESSION['user_email'], "/checkout", "Order placed successfully", "Success");
+                
             } catch (Exception $e) {
                 // Rollback transaction on error
                 $conn->rollback();
                 $error = "Error processing your order. Please try again.";
+
+                // Log the failed transaction
+                require_once('../assets/php/logger.php');
+                writeToLogFile("TRANSACTION", $_SESSION['user_email'], "/checkout", "Transaction failed: " . $e->getMessage(), "Fail");
             }
         }
     }
