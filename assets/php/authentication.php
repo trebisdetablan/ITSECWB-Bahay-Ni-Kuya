@@ -4,6 +4,8 @@
     - redirect user depending on role
 */
 
+require_once('logger.php');
+
 function redirectUser($user){
     // Redirect based on role
     if ($user['role'] == 'A' || $user['role'] == 'S') {
@@ -36,5 +38,6 @@ function logAuthentication(&$conn, $email, $resource, $reason, $status) {
     $log_stmt->bind_param("sssss", $type, $email, $resource, $reason, $status);
     $log_stmt->execute();
 
+    writeToLogFile("AUTH", $email, $resource, $reason, $status);
 }
 ?>
