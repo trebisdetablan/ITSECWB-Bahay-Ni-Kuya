@@ -54,7 +54,7 @@ function logAuthorization(&$conn, $email, $resource, $reason, $status) {
     $log_stmt->bind_param("sssss", $type, $email, $resource, $reason, $status);
     $log_stmt->execute();
 
-    writeToLogFile("AUTH", $email, $resource, $reason, $status);
+    writeToLogFile("ACCESS", $email, $resource, $reason, $status);
 }
 
 ?>
