@@ -13,5 +13,13 @@ function writeToLogFile($category, $email, $resource, $reason, $status) {
     // 3. Write to the file using PHP's error_log
     // The '3' tells PHP to append the message to the destination file
     error_log($logMessage, 3, $logFile);
+
+    // Syslog Logging
+    // Open the syslog connection
+    openlog("BahayNiKuyaApp", LOG_PID | LOG_PERROR, LOG_USER);
+    // Send the message as an informational log
+    syslog(LOG_INFO, $logMessage);
+    // Close the connection
+    closelog();
 }
 ?>
