@@ -147,13 +147,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // CALL PROCEDURE: sp_add_property
     $stmt = $conn->prepare("CALL sp_add_property(?, ?, ?, ?, ?)");
     $stmt->bind_param("ssdss", $name, $address, $price, $description, $photo);
+    require_once('../assets/php/logger.php');
 
     if ($stmt->execute()) {
         $_SESSION['admin_message'] = "Property added successfully";
         $_SESSION['admin_message_type'] = "success";
+        // Log admin success
+        writeToLogFile("ADMIN", $_SESSION['user_email'], "/admin_add_property", "Added property: $name", "Success");
+} else {
     } else {
         $_SESSION['admin_message'] = "Error adding property: " . $conn->error;
         $_SESSION['admin_message_type'] = "error";
+        // Log admin failure
+        writeToLogFile("ADMIN", $_SESSION['user_email'], "/admin_add_property", "Failed to add property", "Fail");
     }
     
     // Return JSON response for AJAX or redirect
