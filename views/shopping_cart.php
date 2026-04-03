@@ -8,6 +8,9 @@ require_once('../includes/dbconfig.php');
 include('../assets/php/authorization.php');
 customerAccess($conn, "/shopping_cart");
 
+//For Timeout
+require_once('../assets/php/authentication.php');
+
 // Initialize $cartItems and $totalPrice
 $cartItems = [];
 $totalPrice = 0;
