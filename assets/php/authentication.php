@@ -1,4 +1,27 @@
 <?php 
+session_start();
+
+// Set timeout duration (in seconds)
+$timeout_duration = 300; // 5 minutes
+
+// Check if last activity is set
+if (isset($_SESSION['LAST_ACTIVITY'])) {
+    // Calculate inactive time
+    $inactive_time = time() - $_SESSION['LAST_ACTIVITY'];
+
+    if ($inactive_time > $timeout_duration) {
+        // Session expired
+        session_unset();
+        session_destroy();
+
+        // Redirect to login with message
+        header("Location: /views/login.php?timeout=1");
+        exit();
+    }
+}
+
+// Update last activity time
+$_SESSION['LAST_ACTIVITY'] = time();
 /* 
     authentication.php
     - redirect user depending on role
