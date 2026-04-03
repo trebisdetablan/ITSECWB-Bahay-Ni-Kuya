@@ -2,6 +2,9 @@
 // edit_property.php
     require_once('../includes/dbconfig.php');
 
+    //For Timeout
+    require_once('../assets/php/authentication.php');
+
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     // Fetch property data
