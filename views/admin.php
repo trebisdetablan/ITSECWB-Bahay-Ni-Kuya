@@ -8,6 +8,8 @@ require_once('../includes/dbconfig.php');
 include('../assets/php/authorization.php');
 adminAccess($conn);
 
+// For Timeout
+require_once('../assets/php/authentication.php');
 
 ?>
 
