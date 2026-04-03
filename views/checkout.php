@@ -4,11 +4,16 @@ session_start();
 // Database configuration
 require_once('../includes/dbconfig.php');
 
+//For Timeout
+require_once('../assets/php/authentication.php');
+
 // Check if user is logged in and is a customer
 include('../assets/php/authorization.php');
 customerAccess($conn, "/checkout");
 
 include('../assets/php/validation.php');
+
+
 
 $resource = "/checkout";
 $reason = "";
