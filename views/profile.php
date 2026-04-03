@@ -6,6 +6,9 @@ require_once('../includes/dbconfig.php');
 include('../assets/php/authorization.php');
 customerAccess($conn, "/profile");
 
+//For Timeout
+require_once('../assets/php/authentication.php');
+
 $email = $_SESSION['user_email'];
 
 // Fetch user details
