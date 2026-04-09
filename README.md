@@ -94,6 +94,12 @@ To run this project over HTTPS locally, follow these steps:
 
 3. Save the config file.
 
+4. Open ```xampp\apache\conf\httpd.conf``` and find the line (LoadModule ssl_module modules/mod_ssl.so).
+
+5. Remove the # at the beginning of that line.
+
+6. Find Include conf/extra/httpd-ssl.conf and remove the # at the start also.
+
 ### Executing program
 
 * Open XAMPP Control Panel
