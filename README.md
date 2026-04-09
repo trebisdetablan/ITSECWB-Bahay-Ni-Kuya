@@ -80,9 +80,9 @@ To run this project over HTTPS locally, follow these steps:
 
 2. Copy the ```openssl.exe``` and ```openssl.cfg``` files from the newly installed OpenSSL to ```C:\Program Files\Common Files\SSL```.
 
-1. Generate Certificates: Run ```setup-ssl.bat``` in the root folder (via command prompt) to create your local ```key.pem``` and ```cert.pem```. 
+3. Generate Certificates: Run ```setup-ssl.bat``` in the root folder (via command prompt) to create your local ```key.pem``` and ```cert.pem```. 
 
-2. Open ```xampp/apache/conf/extra/httpd-ssl.conf``` and uncomment/replace the following lines:
+4. Open ```xampp/apache/conf/extra/httpd-ssl.conf``` and uncomment/replace the following lines:
     DocumentRoot "PATH_TO_YOUR_PROJECT_HERE"
 
     SSLCertificateFile "PATH_TO_YOUR_PROJECT_HERE/cert.pem"
@@ -95,13 +95,13 @@ To run this project over HTTPS locally, follow these steps:
         Require all granted
     </Directory>
 
-3. Save the config file.
+5. Save the config file.
 
-4. Open ```xampp\apache\conf\httpd.conf``` and find the line (LoadModule ssl_module modules/mod_ssl.so).
+6. Open ```xampp\apache\conf\httpd.conf``` and find the line (LoadModule ssl_module modules/mod_ssl.so).
 
-5. Remove the # at the beginning of that line.
+7. Remove the # at the beginning of that line.
 
-6. Find Include conf/extra/httpd-ssl.conf and remove the # at the start also.
+8. Find Include conf/extra/httpd-ssl.conf and remove the # at the start also.
 
 ### Executing program
 
