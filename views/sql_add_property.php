@@ -149,11 +149,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("ssdss", $name, $address, $price, $description, $photo);
     require_once('../assets/php/logger.php');
 
+
     if ($stmt->execute()) {
         $_SESSION['admin_message'] = "Property added successfully";
         $_SESSION['admin_message_type'] = "success";
-        // Log admin success
         writeToLogFile("ADMIN", $_SESSION['user_email'], "/admin_add_property", "Added property: $name", "Success");
+    } else {
+        // Call the centralized error handler
+        $safeErrorMessage = handleSystemError($conn, $_SESSION['user_email'], "/admin_add_property", $conn->error);
+        
+        $_SESSION['admin_message'] = $safeErrorMessage;
+        $_SESSION['admin_message_type'] = "error";
+    }
 } else {
     } else {
         $_SESSION['admin_message'] = "Error adding property: " . $conn->error;
