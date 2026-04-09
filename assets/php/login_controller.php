@@ -96,6 +96,9 @@ function login(&$conn) {
                 // Verify password by comparing the hash of the input vs the actual password hash
                 if( password_verify($password, $user['password_hash']) ){
 
+                    // Session Fixation
+                    session_regenerate_id(true);
+
                     // Log successful authentication to EVENT_LOGS table
                     $reason = "Correct password submitted";
                     $status = "Success";
