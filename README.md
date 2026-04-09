@@ -62,8 +62,8 @@ the file location of the xampp folder.
 7. Refresh the page and the [bahaynikuya_db] schema should be visible on the left side.
 
 #### Step 3: Repeat the steps for stored procedures & triggers
-* Repeat the Steps above for the ```procedures.sql``` and ```triggers.sql``` script to complete the DB.
-
+* Repeat the Steps abovto complete the DB.
+e for the ```procedures.sql``` and ```triggers.sql``` script 
 ### Populating the DATABASE
 1. PREREQUISITE: Ensure the [bahaynikuya_db] schema exists in your phpadmin databases
 2. Under the ```database/scripts``` subfolder, find the [bnk-data.sql] script
@@ -74,6 +74,25 @@ the file location of the xampp folder.
 7. Paste the sql file contents in the text box, then press [Go] on the bottom right
 8. Click on any of the tables in [bahaynikuya_db] schema to verify that the sample data was inserted.
 
+### Security Setup (HTTPS)
+To run this project over HTTPS locally, follow these steps:
+
+1. Generate Certificates: Run ```setup-ssl.bat``` in the root folder (via command prompt) to create your local ```key.pem``` and ```cert.pem```. 
+
+2. Open ```xampp/apache/conf/extra/httpd-ssl.conf``` and uncomment/replace the following lines:
+    DocumentRoot "PATH_TO_YOUR_PROJECT_HERE"
+
+    SSLCertificateFile "PATH_TO_YOUR_PROJECT_HERE/cert.pem"
+
+    SSLCertificateKeyFile "PATH_TO_YOUR_PROJECT_HERE/key.pem"
+
+    <Directory "PATH_TO_YOUR_PROJECT_HERE">
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+3. Save the config file.
 
 ### Executing program
 
@@ -87,7 +106,7 @@ the file location of the xampp folder.
 
 * On your browser, enter the following URL to access the Bahay Ni Kuya login page
 ```
-localhost/ITDBADM-Bahay-Ni-Kuya/views/login.php
+https://localhost/views/login.php
 ```
 
 ## Help

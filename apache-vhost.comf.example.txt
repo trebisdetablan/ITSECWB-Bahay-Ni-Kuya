@@ -1,0 +1,8 @@
+# COPY THIS INTO YOUR xampp/apache/conf/extra/httpd-ssl.conf
+<VirtualHost _default_:443>
+    DocumentRoot "PATH_TO_YOUR_PROJECT_HERE"
+    ServerName localhost:443
+    SSLEngine on
+    SSLCertificateFile "PATH_TO_YOUR_PROJECT_HERE/cert.pem"
+    SSLCertificateKeyFile "PATH_TO_YOUR_PROJECT_HERE/key.pem"
+</VirtualHost>
