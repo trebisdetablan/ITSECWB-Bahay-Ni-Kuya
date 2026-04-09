@@ -76,6 +76,9 @@ e for the ```procedures.sql``` and ```triggers.sql``` script
 
 ### Security Setup (HTTPS)
 To run this project over HTTPS locally, follow these steps:
+1. Install OpenSSL from this site: https://slproweb.com/products/Win32OpenSSL.html
+
+2. Copy the ```openssl.exe``` and ```openssl.cfg``` files from the newly installed OpenSSL to ```C:\Program Files\Common Files\SSL```.
 
 1. Generate Certificates: Run ```setup-ssl.bat``` in the root folder (via command prompt) to create your local ```key.pem``` and ```cert.pem```. 
 
