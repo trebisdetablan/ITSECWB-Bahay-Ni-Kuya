@@ -22,4 +22,18 @@ function writeToLogFile($category, $email, $resource, $reason, $status) {
     // Close the connection
     closelog();
 }
+
+function handleSystemError($conn, $email, $resource, $actualErrorMsg) {
+    // 1. ALWAYS log the real, detailed error to the secure backend log file
+    writeToLogFile("ERROR", $email, $resource, "DB Error: " . $actualErrorMsg, "Fail");
+
+    // 2. Check the global DEBUG_MODE constant (defined in dbconfig.php)
+    if (defined('DEBUG_MODE') && DEBUG_MODE === true) {
+        // Return the detailed stack trace/error for the developer to see
+        return "DEBUG ERROR: Failed to execute query. Stack/Error: " . $actualErrorMsg;
+    } else {
+        // Return a generic, safe error message for production
+        return "A system error occurred. Please try again later or contact support.";
+    }
+}
 ?>
