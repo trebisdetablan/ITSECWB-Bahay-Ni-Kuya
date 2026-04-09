@@ -1,7 +1,11 @@
 <?php
     //After turning on SQL on XAMPP, you can manage the DB via this url:
     // http://localhost/phpmyadmin
-    
+
+    // Set to true for development (shows detailed errors). 
+    // Set to false for production (shows generic errors).
+    define('DEBUG_MODE', true);
+
     // Database connection
     define('DB_SERVER', 'localhost');
     define('DB_USERNAME', 'root');
